@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leader Botz Official Website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --neon-blue: #00f2fe;
+            --neon-green: #39ff14;
+        }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 242, 254, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(57, 255, 20, 0.05) 0%, transparent 40%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .scroll-anim {
+            will-change: transform, opacity;
+            opacity: 0;
+        }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .load-box {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .load-box div {
+            position: absolute;
+            border: 4px solid transparent;
+            border-top-color: var(--neon-blue);
+            border-radius: 50%;
+            animation: loadRotate 1.5s linear infinite;
+        }
+
+        .outer-ring { width: 100px; height: 100px; }
+        .inner-ring {
+            width: 70px; height: 70px;
+            border-top-color: var(--neon-green) !important;
+            animation-duration: 1s !important;
+        }
+
+        @keyframes loadRotate { to { transform: rotate(360deg); } }
+
+        .rgb-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(90deg, #ff0000, #00ff00, #0000ff, #ff00ff, #ff0000);
+            background-size: 400% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rgbShift 20s linear infinite;
+        }
+
+        @keyframes rgbShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 400% 50%; }
+        }
+
+        #menuBtn { position: absolute; right: 2rem; top: 2.5rem; }
+
+        .slider-track { display: flex; width: calc(250px * 10); animation: scroll 20s linear infinite; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-250px * 5)); } }
+        
+        .service-btn {
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+            transition: 0.3s;
+        }
+        .service-btn:hover { background: var(--neon-green); color: black; }
+
+        .video-box { background: #000; border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; overflow: hidden; position: relative; }
+        
+        #loginPopup {
+            position: fixed; bottom: 20px; right: -300px;
+            background: var(--neon-blue); color: #000;
+            padding: 12px 20px; border-radius: 5px; font-weight: bold; z-index: 100;
+        }
+        
+        
+        .service-btn {
+    border: 1px solid var(--neon-blue);
+    background: rgba(0, 242, 254, 0.05);
+    color: var(--neon-blue);
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-flex;
+    align-items: center;
+}
+
+.service-btn:hover {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 25px var(--neon-blue);
+    transform: translateY(-5px) scale(1.05);
+}
+
+   
+   
+   
+   #menuOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95); /* Blackish glass look */
+    z-index: 40;
+    display: none; /* Initial state hidden */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0; /* Fade animation-kkaga */
+    backdrop-filter: blur(10px); /* Blur effect */
+}
+
+   
+        
+        
+        
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <div id="loader">
+        <div class="load-box">
+            <div class="outer-ring"></div>
+            <div class="inner-ring"></div>
+        </div>
+    </div>
+
+    <header class="pt-10 pb-20 relative">
+        <h1 class="rgb-title">LEADER BOTZ</h1>
+        <div id="menuBtn" class="cursor-pointer space-y-2 z-50">
+            <div class="w-8 h-1 bg-white"></div>
+            <div class="w-8 h-1 bg-white"></div>
+            <div class="w-8 h-1 bg-white"></div>
+        </div>
+    </header>
+
+    <div id="menuOverlay" class="fixed inset-0 bg-black/98 z-40 hidden flex-col items-center justify-center gap-8 text-3xl font-bold">
+        <a href="index.html" class="hover:text-cyan-400">Home</a>
+        <a href="#" class="hover:text-cyan-400">Login</a>
+        <a href="#" class="hover:text-cyan-400">About</a>
+        <a href="# " class="hover:text-cyan-400">Service</a>
+    </div>
+
+    <main class="max-w-6xl mx-auto px-4">
+        <section class="scroll-anim grid md:grid-cols-2 gap-6 mb-24">
+            <div class="p-6 bg-white/5 border-l-4 border-cyan-400">
+                <h3 class="text-xl font-bold text-cyan-400">Automated Power</h3>
+                <p class="opacity-70">Next-gen bot systems for high-performance tasks.</p>
+            </div>
+            <div class="p-6 bg-white/5 border-l-4 border-green-400">
+                <h3 class="text-xl font-bold text-green-400">Neon Security</h3>
+                <p class="opacity-70">Encrypted data flows with advanced safety.</p>
+            </div>
+            <div class="p-6 bg-white/5 border-l-4 border-cyan-400">
+                <h3 class="text-xl font-bold text-cyan-400">Live Dashboard</h3>
+                <p class="opacity-70">Monitor your bots 24/7 with zero lag.</p>
+            </div>
+            <div class="p-6 bg-white/5 border-l-4 border-green-400">
+                <h3 class="text-xl font-bold text-green-400">Fast Response</h3>
+                <p class="opacity-70">Instant execution of commands across servers.</p>
+            </div>
+        </section>
+        
+        
+          <section>
+    <h2 class="text-3xl font-bold text-center mb-10 text-cyan-400 tracking-widest uppercase">New updates</h2>
+    </section>
+
+
+        <div class="scroll-anim overflow-hidden mb-24">
+    <div class="slider-track">
+        <a href="https://www.google.com" target="_blank" class="w-[230px] h-[150px] mx-2 bg-gray-800 rounded-xl overflow-hidden block">
+            <img src="naaan.llk" class="w-full h-full object-cover">
+        </a>
+
+        <a href="https://leaderbotzofficial.github.io/LeaderBotzV1.0/" target="_blank" class="w-[230px] h-[150px] mx-2 bg-gray-800 rounded-xl overflow-hidden block">
+            <img src="LeaderBotzV1_web_leaderbotz.jpg" class="w-full h-full object-cover">
+        </a>
+
+        <a href="https://leaderbotzofficial.github.io/setup-video/" target="_blank" class="w-[230px] h-[150px] mx-2 bg-gray-800 rounded-xl overflow-hidden block">
+            <img src="proxyob52_web_leaderbotz.jpg" class="w-full h-full object-cover">
+        </a>
+
+        <a href="https://t.me/leader_botz/119" class="w-[230px] h-[150px] mx-2 bg-gray-800 rounded-xl overflow-hidden block">
+            <img src="Lemote_web_leaderbotz.jpg" class="w-full h-full object-cover">
+        </a>
+
+        <a href="https://t.me/leader_botz/154" class="w-[230px] h-[150px] mx-2 bg-gray-800 rounded-xl overflow-hidden block">
+            <img src="old_ff_leaderbotz.jpg" class="w-full h-full object-cover">
+        </a>
+        
+        
+           <a href="https://t.me/leader_botz/122" class="w-[230px] h-[150px] mx-2 bg-gray-800 rounded-xl overflow-hidden block">
+            <img src="shadow_web_leaderbotz.jpg" class="w-full h-full object-cover">
+        </a>
+        
+          
+                     
+        
+        
+    </div>
+</div>
+
+
+
+          
+         <section class="scroll-anim mb-24">
+    <h2 class="text-3xl font-bold text-center mb-10 text-cyan-400 tracking-widest uppercase">Our Services</h2>
+    
+    <div class="flex flex-wrap justify-center gap-4">
+        <a href="https://leaderbotzofficial.github.io/LeaderBotzV1.0/" target="_blank" class="service-btn px-8 py-3 rounded-full font-bold uppercase text-sm tracking-wider">
+            <i class="fas fa-robot mr-2"></i> LeaderBotz V1
+        </a>
+
+        <a href="UNGA_LINK_2" target="_blank" class="service-btn px-8 py-3 rounded-full font-bold uppercase text-sm tracking-wider">
+            <i class="fas fa-shield-alt mr-2"></i> Emote Website
+        </a>
+
+        <a href="UNGA_LINK_3" target="_blank" class="service-btn px-8 py-3 rounded-full font-bold uppercase text-sm tracking-wider">
+            <i class="fas fa-code mr-2"></i> FF info bot
+        </a>
+
+        <a href="UNGA_LINK_4" target="_blank" class="service-btn px-8 py-3 rounded-full font-bold uppercase text-sm tracking-wider">
+            <i class="fas fa-server mr-2"></i> Hosting
+        </a>
+
+        <a href="UNGA_LINK_5" target="_blank" class="service-btn px-8 py-3 rounded-full font-bold uppercase text-sm tracking-wider">
+            <i class="fas fa-headset mr-2"></i> Leader Botz
+        </a>
+
+  
+  
+          
+        
+        
+
+        
+        
+    </div>
+</section>
+ 
+          
+          
+          <section>
+    <h2 class="text-3xl font-bold text-center mb-10 text-cyan-400 tracking-widest uppercase">Reels platform</h2>
+    </section>
+          
+                      <!-- video section -->
+          
+         
+        <section 
+        class="scroll-anim grid md:grid-cols-3 gap-6 mb-24">
+        <div class="video-box">
+        <video id="vid1" class="w-full" loop muted playsinline
+        poster="#Z-Vid_1.jpg">
+            
+        <source src="Z-Video1.mp4" type="video/mp4">
+        </video>
+                
+       <div class="p-3 flex flex-wrap justify-between gap-2">
+       <button onclick="togglePlay('vid1')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-cyan-500 hover:text-black">PLAY</button>
+       <button onclick="toggleMute('vid1')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-green-500 hover:text-black">SOUND</button>
+       <button onclick="openFullscreen('vid1')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-white hover:text-black">
+       <i class="fas fa-expand"></i> FULL  </button>
+               </div>
+               </div>
+       
+       
+       
+              
+               
+               
+       <div class="video-box">
+       <video id="vid2" class="w-full" loop muted playsinline
+           poster="#Z-Vid_2.jpg">
+       <source src="Z-Video2.mp4" type="video/mp4">
+       </video>
+
+       <div class="p-3 flex flex-wrap justify-between gap-2">
+       <button onclick="togglePlay('vid2')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-cyan-500 hover:text-black">PLAY</button>
+       <button onclick="toggleMute('vid2')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-green-500 hover:text-black">SOUND</button>
+       <button onclick="openFullscreen('vid2')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-white hover:text-black">
+                        <i class="fas fa-expand"></i> FULL
+            </button>
+            </div>
+            </div>
+            
+            
+            
+           
+            <div class="video-box">
+            <video id="vid3" class="w-full" loop muted playsinline
+            poster="#Z-Vid_3.jpg">
+            
+                    <source src="Z-Video3.mp4" type="video/mp4">
+                </video>
+                
+           <div class="p-3 flex flex-wrap justify-between gap-2">
+           <button onclick="togglePlay('vid3')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-cyan-500 hover:text-black">PLAY</button>
+           <button onclick="toggleMute('vid3')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-green-500 hover:text-black">SOUND</button>
+           <button onclick="openFullscreen('vid3')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-white hover:text-black">
+            <i class="fas fa-expand"></i> FULL
+             </button>
+             </div>
+            </div>
+            
+            
+            
+            
+      <div class="video-box">
+            <video id="vid4" class="w-full" loop muted playsinline
+            poster="#Z-Vid_4.jpg">
+            
+                    <source src="Z-Video4.mp4" type="video/mp4">
+                </video>
+                
+           <div class="p-3 flex flex-wrap justify-between gap-2">
+           <button onclick="togglePlay('vid4')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-cyan-500 hover:text-black">PLAY</button>
+           <button onclick="toggleMute('vid4')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-green-500 hover:text-black">SOUND</button>
+           <button onclick="openFullscreen('vid4')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-white hover:text-black">
+            <i class="fas fa-expand"></i> FULL
+             </button>
+             </div>
+            </div>
+          
+            
+            
+            
+ <div class="video-box">
+            <video id="vid5" class="w-full" loop muted playsinline
+            poster="#Z-Vid_5.jpg">
+            
+                    <source src="Z-Video5.mp4" type="video/mp4">
+                </video>
+                
+           <div class="p-3 flex flex-wrap justify-between gap-2">
+           <button onclick="togglePlay('vid5')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-cyan-500 hover:text-black">PLAY</button>
+           <button onclick="toggleMute('vid5')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-green-500 hover:text-black">SOUND</button>
+           <button onclick="openFullscreen('vid5')" class="bg-white/10 px-2 py-1 rounded text-[9px] hover:bg-white hover:text-black">
+            <i class="fas fa-expand"></i> FULL
+             </button>
+             </div>
+            </div>
+  
+   
+            
+            
+            
+        </section>
+        
+        
+                 <!-- video finished -->
+                 
+                 
+                   <section>
+    <h2 class="text-3xl font-bold text-center mb-10 text-cyan-400 tracking-widest uppercase">Bot Status</h2>
+    </section>
+
+                 
+                 
+
+        <div class="scroll-anim flex flex-wrap justify-center gap-10 mb-24">
+            <div class="w-32 h-32 border-2 border-cyan-500 rounded-full flex flex-col items-center justify-center bg-black/40">
+                <span class="text-2xl font-bold" id="userCount">454+</span>
+                <span class="text-[10px] uppercase text-cyan-400">Users</span>
+            </div>    
+            <div class="w-32 h-32 border-2 border-green-500 rounded-full flex flex-col items-center justify-center bg-black/40">
+                <span class="text-2xl font-bold" id="visitorCount">120+</span>
+                <span class="text-[10px] uppercase text-green-400">Visitors</span>
+            </div>
+        </div>
+
+        <div class="scroll-anim max-w-md mx-auto bg-white/5 p-6 rounded-2xl border border-white/10 mb-24">
+            <div class="flex justify-between items-center mb-4 text-xs opacity-60">
+                <span>● Active Now</span> <span id="clock">00:00:00</span>
+            </div>
+            <div id="chat" class="h-32 overflow-y-auto mb-4 text-sm"></div>
+            <div class="flex gap-2">
+                <input type="text" id="mInp" class="flex-1 bg-white/10 rounded-lg p-2 outline-none" placeholder="Message...">
+                <button onclick="sendMsg()" class="bg-cyan-500 text-black px-4 rounded-lg font-bold">Send</button>
+            </div>
+        </div>
+
+        <div class="scroll-anim flex justify-center gap-10 mb-10">
+            <a href="t.me/itz_vithu07" class="text-3xl text-cyan-400 hover:scale-125 transition"><i class="fab fa-telegram"></i></a>
+            <a href="https://wa.me/94756536188" class="text-3xl text-green-400 hover:scale-125 transition"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://youtube.com/@itz_vithu7?si=NU_Rf8Xlhgjt10sH" class="text-3xl text-red-500 hover:scale-125 transition"><i class="fab fa-youtube"></i></a>
+            <a href="https://discord.gg/GGNHc8P7v" class="text-3xl text-indigo-400 hover:scale-125 transition"><i class="fab fa-discord"></i></a>
+        </div>
+
+        <p class="text-center opacity-30 text-xs pb-10">All reserved by leaderbotz &copy; 2026</p>
+    </main>
+
+    <div id="loginPopup">Please Login the Website</div>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.config({ limitCallbacks: true });
+
+        window.onload = () => {
+            gsap.set(".scroll-anim", { opacity: 0, scale: 0.9, rotateX: -10 });
+            setTimeout(() => {
+                gsap.to("#loader", { opacity: 0, duration: 0.8, onComplete: () => {
+                    document.getElementById('loader').style.display = 'none';
+                    showNotify();
+                    initScrollAnims();
+                }});
+            }, 5000);
+        };
+
+        function initScrollAnims() {
+            gsap.utils.toArray(".scroll-anim").forEach(box => {
+                gsap.to(box, { 
+                    scale: 1, rotateX: 0, opacity: 1, 
+                    duration: 0.8, 
+                    ease: "power2.out",
+                    force3D: true,
+                    scrollTrigger: {
+                        trigger: box,
+                        start: "top 90%",
+                        once: true 
+                    }
+                });
+            });
+        }
+
+        // Fullscreen Logic
+        function openFullscreen(id) {
+            const elem = document.getElementById(id);
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                elem.msRequestFullscreen();
+            }
+        }
+
+        function togglePlay(id) {
+            const v = document.getElementById(id);
+            v.paused ? v.play() : v.pause();
+        }
+
+        function toggleMute(id) {
+            const v = document.getElementById(id);
+            v.muted = !v.muted;
+        }
+
+        
+        <!--  -->
+        
+        
+        
+        
+        
+        function showNotify() {
+            gsap.to("#loginPopup", { right: 20, duration: 0.8, ease: "back.out" });
+            setTimeout(() => gsap.to("#loginPopup", { right: -300, duration: 0.8 }), 4000);
+        }
+
+        setInterval(() => {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString();
+        }, 1000);
+
+        function sendMsg() {
+            const inp = document.getElementById('mInp');
+            const chat = document.getElementById('chat');
+            if(!inp.value) return;
+            chat.innerHTML += `<div class='text-right mb-2'><span class='bg-cyan-600 p-1 px-3 rounded-lg'>${inp.value}</span></div>`;
+            const val = inp.value; inp.value = "";
+            const t = document.createElement('div'); t.innerText = "typing..."; chat.appendChild(t);
+            setTimeout(() => { 
+                t.remove(); 
+                chat.innerHTML += `<div class='text-left mb-2'><span class='bg-white/10 p-1 px-3 rounded-lg'>Sending: ${val}</span></div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 1000);
+        }
+        
+        
+        
+        
+        const mBtn = document.getElementById('menuBtn');
+const overlay = document.getElementById('menuOverlay');
+const menuLinks = document.querySelectorAll('#menuOverlay a');
+
+// Menu open/close state logic
+let isOpen = false;
+
+// Initial setup for menu links (mela irunthu keela vara)
+gsap.set(menuLinks, { y: 50, opacity: 0 });
+
+mBtn.onclick = () => {
+    if (!isOpen) {
+        // MENU OPEN ANIMATION
+        overlay.classList.remove('hidden');
+        overlay.style.display = 'flex';
+        
+        // Background fade-in
+        gsap.to(overlay, { opacity: 1, duration: 0.5, ease: "power2.out" });
+        
+        // Links onnu pinnaadi onna azhaga varum (Stagger)
+        gsap.to(menuLinks, { 
+            y: 0, 
+            opacity: 1, 
+            duration: 0.4, 
+            stagger: 0.1, 
+            ease: "back.out(1.7)",
+            delay: 0.2 
+        });
+        
+        // Hamburger icon rotation (X mark maathiri)
+        gsap.to(mBtn.children[0], { rotate: 45, y: 12, duration: 0.3 });
+        gsap.to(mBtn.children[1], { opacity: 0, x: 20, duration: 0.3 });
+        gsap.to(mBtn.children[2], { rotate: -45, y: -12, duration: 0.3 });
+
+    } else {
+        // MENU CLOSE ANIMATION
+        gsap.to(menuLinks, { y: 30, opacity: 0, duration: 0.3, stagger: -0.05 });
+        
+        gsap.to(overlay, { 
+            opacity: 0, 
+            duration: 0.5, 
+            delay: 0.2, 
+            onComplete: () => {
+                overlay.classList.add('hidden');
+                overlay.style.display = 'none';
+            }
+        });
+
+        // Icon-ah thirumba pazhaya maathiri matha
+        gsap.to(mBtn.children[0], { rotate: 0, y: 0, duration: 0.3 });
+        gsap.to(mBtn.children[1], { opacity: 1, x: 0, duration: 0.3 });
+        gsap.to(mBtn.children[2], { rotate: 0, y: 0, duration: 0.3 });
+    }
+    isOpen = !isOpen;
+};
+
+        
+        
+        
+        
+    </script>
+</body>
+</html>
