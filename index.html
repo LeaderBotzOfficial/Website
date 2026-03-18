@@ -148,107 +148,7 @@
    
          <!-- maintenance -->
         
-        :root {
-    --blood-red: #ff0000; /* Pure Red for better visibility */
-    --dark-crimson: #8b0000;
-    --overlay-bg: rgba(0, 0, 0, 0.85); /* 85% Dark - Website pinadi theriyum */
-}
-
-#maintenance-system {
-    position: fixed; /* Screen scroll aanaalum layer move aagadhu */
-    top: 0; 
-    left: 0; 
-    width: 100vw; /* Full Viewport Width */
-    height: 100vh; /* Full Viewport Height */
-    background: var(--overlay-bg);
-    backdrop-filter: blur(10px); /* Website-ai blur pannum */
-    -webkit-backdrop-filter: blur(10px);
-    z-index: 99999999 !important; /* Extremely high to cover everything */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: all; /* Blocks all touches to background */
-    font-family: 'Arial', sans-serif;
-}
-
-/* Loading Box - Idhukkulla dhaan progress bar irukanum */
-#loader-screen { 
-    text-align: center; 
-    width: 85%; 
-    max-width: 400px; 
-    background: rgba(20, 0, 0, 0.9); /* Bar-ku pinadi oru solid box */
-    padding: 30px;
-    border-radius: 20px;
-    border: 1px solid var(--dark-crimson);
-    box-shadow: 0 0 25px rgba(255, 0, 0, 0.2);
-}
-
-#loader-text { 
-    color: var(--blood-red); 
-    margin-bottom: 25px; 
-    font-size: 18px;
-    letter-spacing: 2px; 
-    text-transform: uppercase; 
-    text-shadow: 0 0 10px var(--dark-crimson);
-}
-
-.progress-container {
-    width: 100%;
-    height: 15px; /* Bar thickness increase pannirukken */
-    background: #1a0000;
-    border-radius: 50px;
-    overflow: hidden;
-    border: 1px solid #500;
-}
-
-#progress-bar {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, #8b0000, #ff0000); /* Blood animation effect */
-    box-shadow: 0 0 20px #ff0000; /* Glowing red */
-    transition: width 0.3s ease;
-}
-
-#counter { 
-    color: white; 
-    margin-top: 15px; 
-    font-weight: bold; 
-    font-size: 24px; 
-    text-shadow: 0 0 10px #ff0000;
-}
-
-/* Maintenance Card */
-.hidden { display: none !important; }
-
-.card-ui {
-    background: linear-gradient(145deg, #1a0000, #0a0a0a);
-    padding: 40px 20px;
-    border-radius: 20px;
-    border: 2px solid var(--dark-crimson);
-    text-align: center;
-    box-shadow: 0 0 40px rgba(139, 0, 0, 0.6);
-    width: 85%;
-    max-width: 380px;
-}
-
-.blood-icon { font-size: 60px; margin-bottom: 15px; }
-
-h1 { color: #ff4d4d; margin-bottom: 15px; font-size: 22px; }
-
-p { color: #ccc; margin-bottom: 30px; line-height: 1.5; }
-
-.btn-exit {
-    background: #8b0000;
-    color: white;
-    border: 2px solid #ff0000;
-    padding: 14px 60px;
-    font-weight: bold;
-    font-size: 16px;
-    border-radius: 10px;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(139, 0, 0, 0.4);
-       }
-        
+              
         
     </style>
 </head>
@@ -534,33 +434,8 @@ p { color: #ccc; margin-bottom: 30px; line-height: 1.5; }
 
   <!-- system -->
     
- <div id="maintenance-system">
-    
-    <div id="loader-screen">
-        <div class="loader-content">
-            <h2 id="loader-text">𝘞𝘦𝘣𝘴𝘪𝘵𝘦 𝘧𝘪𝘹𝘪𝘯𝘨...</h2>
-            <div class="progress-container">
-                <div id="progress-bar"></div>
-            </div>
-            <div id="counter">0%</div>
-        </div>
-    </div>
-
-    <div id="maintenance-card" class="hidden">
-        <div class="card-ui">
-            <div class="blood-icon">⚠️</div>
-            <h1>Website in Maintenance</h1>
-            <p>System updates in progress. Leader Botz update our new version and I will be integrating multiple features, ensuring the system remains bug-free.</p>
-            
-            <button id="exitBtn" class="btn-exit">OK</button>
-        </div>
-    </div>
-
-</div>
-
-<link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
-
+ 
+   
     
 
 
@@ -712,65 +587,7 @@ mBtn.onclick = () => {
      <!-- jsmai -->
         
         
-        let count = 0;
-const progressBar = document.getElementById('progress-bar');
-const counterText = document.getElementById('counter');
-const loaderScreen = document.getElementById('loader-screen');
-const maintenanceCard = document.getElementById('maintenance-card');
 
-function startLoading() {
-    let speed = 50; // Normal speed (0 to 90)
-
-    let timer = setInterval(() => {
-        if (count < 90) {
-            count++;
-            speed = 50;
-        } else if (count < 100) {
-            // 90 mela pona udane speed-ah koraikirom (15 seconds for last 10%)
-            // 15000ms / 10 steps = 1500ms per percent
-            clearInterval(timer); 
-            slowDown();
-            return;
-        }
-
-        updateUI();
-    }, speed);
-}
-
-function slowDown() {
-    let slowTimer = setInterval(() => {
-        if (count < 100) {
-            count++;
-            updateUI();
-        } else {
-            clearInterval(slowTimer);
-            showMaintenance();
-        }
-    }, 1500); // 1.5 seconds per 1% (Total 15s for 10%)
-}
-
-function updateUI() {
-    progressBar.style.width = count + "%";
-    counterText.innerText = count + "%";
-}
-
-function showMaintenance() {
-    loaderScreen.classList.add('hidden');
-    maintenanceCard.classList.remove('hidden');
-}
-
-// Exit Button Logic
-document.getElementById('exitBtn').addEventListener('click', function() {
-    if (confirm("Are you sure you want to close?")) {
-        window.close();
-        window.location.href = "about:blank";
-    }
-});
-
-// Start the process
-window.onload = startLoading;
-            
-        
         
     </script>
 </body>
