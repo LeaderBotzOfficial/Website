@@ -2,248 +2,354 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Login Side | Leader Botz Website</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leader Botz - Login Center</title>
     <style>
-        :root {
-            --primary: #a855f7;
-            --glass-bg: rgba(15, 23, 42, 0.85);
-            --border: rgba(255, 255, 255, 0.15);
-        }
-
-        /* Fullscreen Reset */
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden; /* Mobile scroll bar-ai thavirkka */
-            background: #020617;
+        /* CSS - Styling to match the image */
+        * {
+            margin: 0;
+            padding: 0px;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
+            background: radial-gradient(circle at top right, #1a1a2e, #0f0c29, #302b63, #24243e);
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            background: rgba(25, 25, 35, 0.9);
+            padding: 40px 30px;
+            border-radius: 25px;
+            width: 380px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
         }
 
-        /* --- LIVE DYNAMIC GLASS BACKGROUND --- */
-        .bg-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            background: linear-gradient(45deg, #020617, #0f172a);
+        h2 { font-size: 28px; margin-bottom: 10px; }
+        p.subtitle { color: #aaa; font-size: 13px; margin-bottom: 25px; }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
         }
 
-        .glass-orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            animation: float linear infinite;
-            opacity: 0.5;
+        label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 8px;
+            color: #ccc;
         }
-
-        .orb-1 { width: 300px; height: 300px; background: #6366f1; top: -50px; left: -50px; animation-duration: 15s; }
-        .orb-2 { width: 250px; height: 250px; background: #a855f7; bottom: 10%; right: -50px; animation-duration: 20s; animation-direction: reverse; }
-        .orb-3 { width: 200px; height: 200px; background: #0ea5e9; bottom: -50px; left: 20%; animation-duration: 18s; }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, 50px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
-            100% { transform: translate(0, 0) rotate(360deg); }
-        }
-
-        /* --- MOBILE RESPONSIVE CARD --- */
-        .auth-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 30px;
-            border-radius: 24px;
-            border: 1px solid var(--border);
-            width: 90%;
-            max-width: 400px;
-            z-index: 10;
-            text-align: center;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            color: white;
-            animation: cardFadeIn 0.8s ease;
-        }
-
-        @keyframes cardFadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        h2 { font-size: 26px; margin-bottom: 5px; font-weight: 700; }
-        p.subtitle { color: #94a3b8; font-size: 13px; margin-bottom: 25px; }
-
-        .input-group { text-align: left; margin-bottom: 18px; }
-        label { display: block; font-size: 12px; color: #cbd5e1; margin-bottom: 6px; font-weight: 500; }
 
         input {
             width: 100%;
-            padding: 14px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: #fff;
-            font-size: 15px;
+            padding: 12px 15px;
+            background: #1e1e2d;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: white;
             outline: none;
             transition: 0.3s;
-            -webkit-appearance: none; /* Mobile shadow fix */
         }
 
-        input:focus { border-color: var(--primary); background: rgba(255, 255, 255, 0.1); }
+        input:focus { border-color: #a855f7; }
 
-        .pass-wrapper { position: relative; }
-        .eye-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #64748b; font-size: 18px; }
-
-        button {
-            width: 100%; padding: 14px; background: var(--primary);
-            color: white; border: none; border-radius: 12px;
-            font-weight: 600; font-size: 16px; cursor: pointer;
-            transition: 0.3s; margin-top: 10px;
-            box-shadow: 0 10px 15px rgba(168, 85, 247, 0.2);
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #a855f7;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
         }
 
-        .toggle-link { margin-top: 20px; font-size: 14px; color: #94a3b8; }
-        .toggle-link span { color: var(--primary); cursor: pointer; font-weight: 700; }
+        .btn:hover { background: #9333ea; }
 
-        /* --- FULL SCREEN POPUP LOADER --- */
-        #loaderPop {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(2, 6, 23, 0.98);
-            display: none; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 9999;
+        .toggle-link {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #a855f7;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .spinner {
-            width: 60px; height: 60px;
-            border: 4px solid rgba(168, 85, 247, 0.1);
-            border-top: 4px solid var(--primary);
+        /* Loading Animation (Pulse Effect) */
+        .loader-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pulse-loader {
+            width: 60px;
+            height: 60px;
+            background-color: #a855f7;
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            margin: 20px auto;
+            animation: pulse-grow 1.2s infinite ease-in-out;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
         }
 
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        #loaderTxt { margin-top: 20px; color: white; font-size: 18px; font-weight: 500; }
+        @keyframes pulse-grow {
+            0% { transform: scale(0.1); opacity: 1; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
 
-        #msg { padding: 10px; border-radius: 10px; margin-bottom: 15px; display: none; font-size: 13px; text-align: center; }
+        /* UI Messages (Toast) */
+        #toast-msg {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #ff4757;
+            color: white;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: slideIn 1s ease;
+        }
+
+        /* Success Message Bottom Left */
+        #bottom-success {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 15px 25px;
+            background: #2ed573;
+            color: white;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: slideInLeft 1s ease;
+        }
+
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes slideInLeft { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+
+        .hidden { display: none; }
+
+        #verification-code-display {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px dashed #a855f7;
+            border-radius: 8px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="bg-container">
-        <div class="glass-orb orb-1"></div>
-        <div class="glass-orb orb-2"></div>
-        <div class="glass-orb orb-3"></div>
+    <div id="toast-msg"></div>
+    <div id="bottom-success">Account saved successfully! ✅</div>
+
+    <div id="login-container" class="container">
+        <h2>Sign In</h2>
+        <p class="subtitle">Access your account securely with Leader Botz</p>
+        <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="login-email" placeholder="email@.com">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="login-password" placeholder="•••••">
+        </div>
+        <button class="btn" onclick="handleLogin()">Login</button>
+        <p class="toggle-link" onclick="showSignup()">New here? Create Account</p>
     </div>
 
-    <div id="loaderPop">
-        <div class="spinner"></div>
-        <p id="loaderTxt">Processing...</p>
-    </div>
-
-    <div class="auth-card">
-        <h2 id="title">Sign In</h2>
-        <p class="subtitle" id="subtitle">Access your account securely with Leader Botz</p>
-        
-        <div id="msg"></div>
-
-        <form id="mainForm">
-            <div class="input-group">
+    <div id="signup-container" class="container hidden">
+        <div id="signup-form-content">
+            <h2>Create Account</h2>
+            <p class="subtitle"> Leader Botz account center</p>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="reg-name" placeholder="Your Name">
+            </div>
+            <div class="form-group">
                 <label>Email Address</label>
-                <input type="email" id="email" required placeholder="name@mail.com">
+                <input type="email" id="reg-email" placeholder="email@.com">
             </div>
-            <div class="input-group">
-                <label>Password</label>
-                <div class="pass-wrapper">
-                    <input type="password" id="password" required placeholder="••••••••">
-                    <i class="fa-solid fa-eye eye-btn" id="eye"></i>
+            <div class="form-group">
+                <label>New Password</label>
+                <input type="password" id="reg-password" placeholder="•••••">
+            </div>
+            
+            <div id="verify-section" class="hidden">
+                <div class="form-group">
+                    <label>Enter Code</label>
+                    <input type="text" id="verify-input" maxlength="4" placeholder="0000">
                 </div>
+                <div id="verification-code-display">Code: <span id="generated-code"></span></div>
             </div>
-            <button type="submit" id="btn">Login</button>
-        </form>
 
-        <p class="toggle-link">
-            <span id="toggleMsg">New here? <span onclick="toggle()">Create Account</span></span>
-        </p>
+            <button class="btn" id="reg-btn" onclick="generateAndShowCode()">Get Verification Code</button>
+            <button class="btn hidden" id="verify-btn" onclick="handleSignup()">Verify & Create</button>
+            <p class="toggle-link" onclick="showLogin()">Already have an account? Login</p>
+        </div>
+
+        <div id="action-loader" class="loader-container">
+            <div class="pulse-loader"></div>
+            <p>Processing...</p>
+        </div>
+    </div>
+
+    <div id="loading-screen" class="container hidden">
+        <h2>Finalizing Account...</h2>
+        <div class="pulse-loader"></div>
+        <p>Leader botz connecting</p>
+    </div>
+
+    <div id="dashboard-container" class="container hidden">
+        <h2>Welcome Back!</h2>
+        <p class="subtitle">You have already logged in.</p>
+        <h3 id="user-display-name" style="color: #a855f7; margin-bottom: 20px;"></h3>
+        <button class="btn" onclick="goToIndex()">Website</button>
+        <button class="btn" style="background: #444; margin-top: 10px;" onclick="logout()">Logout</button>
     </div>
 
     <script>
-        const REDIRECT = "index.html";
-        let isLogin = true;
+        let generatedCode = "";
+        // உங்களின் Index file அல்லது லிங்க்-ஐ இங்கே மாற்றிக்கொள்ளுங்கள்
+        const REDIRECT_URL = "brmodezz.html"; 
 
-        const email = document.getElementById('email');
-        const pass = document.getElementById('password');
-        const loader = document.getElementById('loaderPop');
-        const lTxt = document.getElementById('loaderTxt');
-        const msg = document.getElementById('msg');
-
-        // Auto-fill Remembered Data
-        window.onload = () => {
-            email.value = localStorage.getItem('lastEmail') || "";
-            pass.value = localStorage.getItem('lastPass') || "";
+        window.onload = function() {
+            const loggedInUser = JSON.parse(localStorage.getItem("currentUser"));
+            if (loggedInUser) {
+                showAlreadyLoggedIn(loggedInUser.name);
+            }
         };
 
-        // Password Toggle
-        document.getElementById('eye').onclick = function() {
-            const isPass = pass.type === 'password';
-            pass.type = isPass ? 'text' : 'password';
-            this.classList.toggle('fa-eye-slash');
-        };
-
-        function toggle() {
-            isLogin = !isLogin;
-            document.getElementById('title').innerText = isLogin ? "Sign In" : "Register";
-            document.getElementById('btn').innerText = isLogin ? "Login" : "Create Account";
-            document.getElementById('toggleMsg').innerHTML = isLogin ? 
-                'New here? <span onclick="toggle()">Create Account</span>' : 
-                'Have an account? <span onclick="toggle()">Login</span>';
-            msg.style.display = 'none';
+        function showMessage(msg, isError = true) {
+            const toast = document.getElementById('toast-msg');
+            toast.innerText = msg;
+            toast.style.background = isError ? "#ff4757" : "#2ed573";
+            toast.style.display = "block";
+            setTimeout(() => { toast.style.display = "none"; }, 3000);
         }
 
-        document.getElementById('mainForm').onsubmit = (e) => {
-            e.preventDefault();
-            loader.style.display = 'flex';
-            lTxt.innerText = isLogin ? "Authenticating..." : "Creating your account...";
+        function showBottomSuccess() {
+            const success = document.getElementById('bottom-success');
+            success.style.display = "block";
+            setTimeout(() => { success.style.display = "none"; }, 4000);
+        }
 
-            const time = isLogin ? 2000 : 6000;
+        function showSignup() {
+            document.getElementById('login-container').classList.add('hidden');
+            document.getElementById('signup-container').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('signup-container').classList.add('hidden');
+            document.getElementById('login-container').classList.remove('hidden');
+        }
+
+        function generateAndShowCode() {
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-password').value;
+
+            if(!name || !email || !pass) {
+                showMessage("Please fill all fields!");
+                return;
+            }
+
+            document.getElementById('signup-form-content').classList.add('hidden');
+            document.getElementById('action-loader').style.display = 'flex';
 
             setTimeout(() => {
-                if (!isLogin) {
-                    localStorage.setItem('uEmail', email.value);
-                    localStorage.setItem('uPass', pass.value);
-                    localStorage.setItem('lastEmail', email.value);
-                    localStorage.setItem('lastPass', pass.value);
-                    loader.style.display = 'none';
-                    showMsg("Account Ready! Please Login.", "#4ade80");
-                    toggle();
-                } else {
-                    if (email.value === localStorage.getItem('uEmail') && pass.value === localStorage.getItem('uPass')) {
-                        localStorage.setItem('lastEmail', email.value);
-                        localStorage.setItem('lastPass', pass.value);
-                        lTxt.innerText = "Success! Entering...";
-                        setTimeout(() => window.location.href = REDIRECT, 1000);
-                    } else {
-                        loader.style.display = 'none';
-                        showMsg("Invalid Details!", "#f87171");
-                    }
-                }
-            }, time);
-        };
+                document.getElementById('action-loader').style.display = 'none';
+                document.getElementById('signup-form-content').classList.remove('hidden');
+                
+                generatedCode = Math.floor(1000 + Math.random() * 9000).toString();
+                document.getElementById('generated-code').innerText = generatedCode;
+                document.getElementById('verify-section').classList.remove('hidden');
+                document.getElementById('reg-btn').classList.add('hidden');
+                document.getElementById('verify-btn').classList.remove('hidden');
+            }, 1500);
+        }
 
-        function showMsg(t, c) {
-            msg.innerText = t;
-            msg.style.display = 'block';
-            msg.style.color = c;
-            msg.style.border = `1px solid ${c}`;
-            msg.style.background = `${c}1A`;
+        function handleSignup() {
+            const userInputCode = document.getElementById('verify-input').value;
+            
+            if (userInputCode !== generatedCode) {
+                showMessage("Incorrect Verification Code!");
+                return;
+            }
+
+            const userData = {
+                name: document.getElementById('reg-name').value,
+                email: document.getElementById('reg-email').value,
+                password: document.getElementById('reg-password').value
+            };
+
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            users.push(userData);
+            localStorage.setItem("users", JSON.stringify(users));
+
+            document.getElementById('signup-container').classList.add('hidden');
+            document.getElementById('loading-screen').classList.remove('hidden');
+
+            setTimeout(() => {
+                document.getElementById('loading-screen').classList.add('hidden');
+                showLogin();
+                showBottomSuccess();
+                document.getElementById('login-email').value = userData.email;
+                document.getElementById('login-password').value = userData.password;
+            }, 10000);
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-password').value;
+            
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            const user = users.find(u => u.email === email && u.password === pass);
+
+            if (user) {
+                localStorage.setItem("currentUser", JSON.stringify(user));
+                // இங்கே தான் உங்களின் index file ஓபன் ஆகும்
+                window.location.href = REDIRECT_URL; 
+            } else {
+                showMessage("Invalid Email or Password!");
+            }
+        }
+
+        function showAlreadyLoggedIn(name) {
+            document.getElementById('login-container').classList.add('hidden');
+            document.getElementById('signup-container').classList.add('hidden');
+            document.getElementById('dashboard-container').classList.remove('hidden');
+            document.getElementById('user-display-name').innerText = name;
+        }
+
+        function goToIndex() {
+            window.location.href = REDIRECT_URL;
+        }
+
+        function logout() {
+            localStorage.removeItem("currentUser");
+            location.reload();
         }
     </script>
 </body>
 </html>
+
